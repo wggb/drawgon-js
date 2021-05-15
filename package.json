@@ -1,0 +1,27 @@
+{
+  "name": "draw-js",
+  "version": "0.1.0",
+  "description": "Canvas drawing library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wggb/draw-js.git"
+  },
+  "keywords": [
+    "canvas",
+    "draw",
+    "whiteboard",
+    "paint",
+    "signature",
+    "paperjs"
+  ],
+  "author": "WhiteGooseGoesBlack (https://github.com/wggb)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wggb/draw-js/issues"
+  },
+  "homepage": "https://github.com/wggb/draw-js#readme"
+}
