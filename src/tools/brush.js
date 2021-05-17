@@ -26,10 +26,10 @@ drawBrush.onMouseDrag = function (event, drawCanvas) {
 drawBrush.onMouseUp = function (event, drawCanvas) {
     if (drawCanvas.busy && drawCanvas.current.path) {
         if (drawCanvas.current.path.segments.length > 5) {
-            drawCanvas.current.path.simplify(10);
+            drawCanvas.current.path.simplify(drawCanvas.pathSmoothing);
         } else if (drawCanvas.current.path.segments.length <= 2) {
             drawCanvas.current.path.add(event.point.add(0.1));
-            drawCanvas.current.path.simplify(50);
+            drawCanvas.current.path.simplify(drawCanvas.pathSmoothing * 5);
         }
         drawCanvas.items.push(drawCanvas.current.path);
 

@@ -71,7 +71,7 @@ var DrawTool = function (name, error) {
 
 var DrawCanvas = function (id, defaults) {
     paper.install(window);
-    paper.setup(id);  // Should be called on load
+    paper.setup(id);  // Better to be called on load
 
     let draw = this;
     this.tool = new Tool();
@@ -96,6 +96,9 @@ var DrawCanvas = function (id, defaults) {
     this.maxStrokeWidth = 9999;
     this.maxZoom = 16;
     this.minZoon = 0.4;
+
+    this.pathSmoothing = 10;
+    this.cornerSmoothing = 4;
 
     view.zoom = this.defaults.zoom;
 
@@ -320,4 +323,31 @@ var DrawCanvas = function (id, defaults) {
             if (tool.active(draw)) tool.onTouchCancel(event, draw);
         });
     });
+
+    let rect = null;
+    this.AddBackground = function () {
+        rect = new paper.Path.Rectangle({
+            point: [
+                view.center.x - (view.size.width / 2),
+                view.center.y - (view.size.height / 2)
+            ],
+            size: [view.size.width, view.size.height],
+            strokeColor: draw.backgroundColor,
+            selected: false
+        });
+        rect.sendToBack();
+        rect.fillColor = draw.backgroundColor;
+    }
+
+    this.RemoveBackground = function () {
+        if (rect) rect.remove();
+    }
+
+    this.getDataURLAsJPEG = function () {
+        return document.querySelector(draw.selector).toDataURL('image/jpeg');
+    };
+
+    this.getDataURLAsPNG = function () {
+        return document.querySelector(draw.selector).toDataURL('image/png');
+    };
 };
