@@ -1,7 +1,7 @@
 var drawBrush = new DrawTool('brush');
 
 drawBrush.active = function (drawCanvas) {
-    return (!drawCanvas.specialKey && drawCanvas.mode == 'draw');
+    return (!drawCanvas.hold && drawCanvas.mode == 'draw');
 };
 
 drawBrush.onMouseDown = function (event, drawCanvas) {

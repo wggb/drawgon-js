@@ -1,7 +1,7 @@
 var drawEraser = new DrawTool('eraser');
 
 drawEraser.active = function (drawCanvas) {
-    return (drawCanvas.mode == 'del');
+    return (!drawCanvas.hold && drawCanvas.mode == 'del');
 };
 
 drawEraser.obj['path'] = null;

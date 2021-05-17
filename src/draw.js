@@ -60,6 +60,11 @@ var DrawTool = function (name, error) {
     this.onMouseUp = function (event, drawCanvas) { return; };
     this.onKeyDown = function (event, drawCanvas) { return; };
     this.onKeyUp = function (event, drawCanvas) { return; };
+    this.onWheel = function (event, drawCanvas) { return; };
+    this.onTouchStart = function (event, drawCanvas) { return; };
+    this.onTouchMove = function (event, drawCanvas) { return; };
+    this.onTouchEnd = function (event, drawCanvas) { return; };
+    this.onTouchCancel = function (event, drawCanvas) { return; };
 
     if (unique) drawTools.add(this);
 };
@@ -107,9 +112,7 @@ var DrawCanvas = function (id, defaults) {
 
     this.delete = true;
     this.busy = false;
-    this.enableShortcuts = false;
-    this.specialKey = false;
-    this.lockZoom = false;
+    this.hold = false;
 
     this.items = [];
     this.tools = ['brush', 'eraser'];
@@ -223,14 +226,6 @@ var DrawCanvas = function (id, defaults) {
         });
     };
 
-    this.getEventDistance = function (event) {
-        let touches = event.touches;
-        return Math.sqrt(
-            Math.pow(touches[0].clientX - touches[1].clientX, 2) +
-            Math.pow(touches[0].clientY - touches[1].clientY, 2)
-        );
-    };
-
     this.zoomCanvas = function (rate, multiply) {
         let zoomValue = view.zoom * rate;
         multiply = (typeof multiply != 'undefined') ? multiply : 0;
@@ -240,75 +235,89 @@ var DrawCanvas = function (id, defaults) {
             let direction = (rate < 1) ? -1 : 1;
             if (multiply > 0)
                 view.center = view.center.add(
-                    draw.mouse.point.subtract(
-                        view.center).divide(rate * direction * multiply)
+                    draw.mouse.point.subtract(view.center)
+                        .divide(rate * direction * multiply)
                 );
             view.zoom = zoomValue;
         }
     };
 
-    $(this.selector)[0].addEventListener('wheel', function (event) {
-        if (!draw.lockZoom) {
-            if (event.deltaY < 0) draw.zoomCanvas(1.2, 5);   // Why 5?
-            else if (event.deltaY > 0) draw.zoomCanvas(0.8, 5);
-        }
-    });
-
-    let onPinchDistance = null;
-    $(this.selector)[0].addEventListener('touchstart', function (event) {
-        if (draw.mode == 'move' && event.touches.length > 1) {
-            onPinchDistance = draw.getEventDistance(event);
-        }
-    });
-
-    $(this.selector)[0].addEventListener('touchmove', function (event) {
-        if (draw.mode == 'move' && event.touches.length > 1) {
-            event.preventDefault();
-            let newPinchDistance = draw.getEventDistance(event);
-            draw.zoomCanvas(Math.abs(newPinchDistance / onPinchDistance));
-            onPinchDistance = newPinchDistance;
-        }
-    });
-
     this.tool.onMouseDown = function (event) {
+        draw.mouse.click = event.point;
         draw.tools.forEach(function (name) {
             let tool = drawTools.get(name);
             if (tool.active(draw)) tool.onMouseDown(event, draw);
         });
-    }
+    };
 
     this.tool.onMouseDrag = function (event) {
         draw.tools.forEach(function (name) {
             let tool = drawTools.get(name);
             if (tool.active(draw)) tool.onMouseDrag(event, draw);
         });
-    }
+    };
 
     this.tool.onMouseMove = function (event) {
+        draw.mouse.point = event.point;
         draw.tools.forEach(function (name) {
             let tool = drawTools.get(name);
             if (tool.active(draw)) tool.onMouseMove(event, draw);
         });
-    }
+    };
 
     this.tool.onMouseUp = function (event) {
         draw.tools.forEach(function (name) {
             let tool = drawTools.get(name);
             if (tool.active(draw)) tool.onMouseUp(event, draw);
         });
-    }
+    };
 
     this.tool.onKeyDown = function (event) {
         draw.tools.forEach(function (name) {
             let tool = drawTools.get(name);
             if (tool.active(draw)) tool.onKeyDown(event, draw);
         });
-    }
+    };
 
     this.tool.onKeyUp = function (event) {
         draw.tools.forEach(function (name) {
             let tool = drawTools.get(name);
             if (tool.active(draw)) tool.onKeyUp(event, draw);
         });
-    }
+    };
+
+    document.querySelector(this.selector).addEventListener('wheel', function (event) {
+        draw.tools.forEach(function (name) {
+            let tool = drawTools.get(name);
+            if (tool.active(draw)) tool.onWheel(event, draw);
+        });
+    });
+
+    document.querySelector(this.selector).addEventListener('touchstart', function (event) {
+        draw.tools.forEach(function (name) {
+            let tool = drawTools.get(name);
+            if (tool.active(draw)) tool.onTouchStart(event, draw);
+        });
+    });
+
+    document.querySelector(this.selector).addEventListener('touchmove', function (event) {
+        draw.tools.forEach(function (name) {
+            let tool = drawTools.get(name);
+            if (tool.active(draw)) tool.onTouchMove(event, draw);
+        });
+    });
+
+    document.querySelector(this.selector).addEventListener('touchend', function (event) {
+        draw.tools.forEach(function (name) {
+            let tool = drawTools.get(name);
+            if (tool.active(draw)) tool.onTouchEnd(event, draw);
+        });
+    });
+
+    document.querySelector(this.selector).addEventListener('touchcancel', function (event) {
+        draw.tools.forEach(function (name) {
+            let tool = drawTools.get(name);
+            if (tool.active(draw)) tool.onTouchCancel(event, draw);
+        });
+    });
 };
