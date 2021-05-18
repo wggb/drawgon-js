@@ -30,11 +30,8 @@ var drawTools = {
         else return null;
     },
     add: function (tool) {
-        if (tool instanceof DrawTool) {
-            this.all.push(tool);
-        } else {
-            console.error('Parameter must be type of \'DrawTool\'.');
-        }
+        if (tool instanceof DrawTool) this.all.push(tool);
+        else console.error('Parameter must be instance of \'DrawTool\'.');
     },
     remove: function (name) {
         this.all.forEach(function (item, index) {
@@ -45,14 +42,13 @@ var drawTools = {
 
 var DrawTool = function (name, error) {
     let unique = true;
-    if (typeof error == 'undefined' || error) {
-        drawTools.getAll().forEach(function (item) {
-            if (item.name == name && unique) {
+    drawTools.getAll().forEach(function (item) {
+        if (item.name == name && unique) {
+            if (typeof error == 'undefined' || error)
                 console.error('You have multiple tools with the same name!');
-                unique = false;
-            }
-        });
-    }
+            unique = false;
+        }
+    });
 
     this.name = name;
 
@@ -82,6 +78,7 @@ var DrawCanvas = function (id, defaults) {
     let draw = this;
     this.tool = new Tool();
 
+    // There might be a better way
     this.defaults = {
         mode: 'draw',
         strokeColor: '#000000',
@@ -89,7 +86,7 @@ var DrawCanvas = function (id, defaults) {
         strokeWidth: 6,
         zoom: 1
     };
-    if (typeof error != 'undefined') this.defaults = defaults;
+    if (typeof defaults != 'undefined') this.defaults = defaults;
 
     this.selector = '#' + id;
     this.mode = this.defaults.mode;
@@ -343,11 +340,15 @@ var DrawCanvas = function (id, defaults) {
         });
         rect.sendToBack();
         rect.fillColor = draw.backgroundColor;
-    }
+    };
 
     this.RemoveBackground = function () {
         if (rect) rect.remove();
-    }
+    };
+
+    this.getDataAsJSON = function () {
+        // TODO: Return items as json
+    };
 
     this.getDataURLAsJPEG = function () {
         return document.querySelector(draw.selector).toDataURL('image/jpeg');
