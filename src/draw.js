@@ -1,3 +1,9 @@
+/*!
+  * Draw-JS v0.1.0 (https://github.com/wggb/draw-js)
+  * Copyright (c) 2021 WhiteGooseGoesBlack
+  * @license MIT (https://github.com/wggb/draw-js/blob/main/LICENSE)
+  */
+
 var drawTools = {
     all: [],
     allNames: function () {

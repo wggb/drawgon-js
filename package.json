@@ -2,8 +2,14 @@
   "name": "draw-js",
   "version": "0.1.0",
   "description": "Canvas drawing library",
-  "main": "src/draw.js",
-  "scripts": {},
+  "main": "dist/draw.js",
+  "scripts": {
+    "dist": "npm-run-all dist-full dist-full-min dist-core dist-core-min",
+    "dist-full": "uglifyjs -b beautify --comments some src/draw.js src/tools/*.js -o dist/draw.js",
+    "dist-full-min": "uglifyjs --comments some src/draw.js src/tools/*.js -o dist/draw-min.js",
+    "dist-core": "uglifyjs -b beautify --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core.js",
+    "dist-core-min": "uglifyjs --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core-min.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wggb/draw-js.git"
@@ -25,5 +31,11 @@
   "dependencies": {
     "paper": "^0.12.15"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "uglify-js": "^3.13.6"
+  },
+  "files": [
+    "dist"
+  ]
 }
