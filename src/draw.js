@@ -347,7 +347,7 @@ var DrawCanvas = function (id, defaults) {
     };
 
     this.getDataAsJSON = function () {
-        // TODO: Return items as json
+        return JSON.stringify(draw.items);
     };
 
     this.getDataURLAsJPEG = function () {
