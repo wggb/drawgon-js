@@ -8,7 +8,9 @@ drawText.obj['shift'] = false;
 
 drawText.obj['id'] = 'draw-text-element';
 
-drawText.obj['createTextElement'] = function (id) {
+drawText.obj['drawCanvas'] = null;
+
+drawText.obj['createTextElement'] = function (id, drawCanvas) {
     drawText.obj.removeTextElement(id);
     let element = document.createElement('textarea');
     element.id = id;
@@ -27,8 +29,9 @@ drawText.obj['removeTextElement'] = function () {
     } catch (e) { }
 };
 
-drawText.obj['readTextElement'] = function (drawCanvas) {
-    if (dradrawCanvas.busy) drawCanvas.current.text.content =
+drawText.obj['readTextElement'] = function () {
+    let drawCanvas = drawText.obj.drawCanvas;
+    if (drawCanvas.busy) drawCanvas.current.text.content =
         document.getElementById(drawText.obj.id).value;
 };
 
@@ -40,7 +43,8 @@ drawText.obj['pushCurrentText'] = function (drawCanvas) {
 };
 
 drawText.onMouseDown = function (event, drawCanvas) {
-    if (drawCanvas.current.text) drawText.obj.pushCurrentText();
+    drawText.obj.drawCanvas = drawCanvas;
+    if (drawCanvas.current.text) drawText.obj.pushCurrentText(drawCanvas);
     drawCanvas.busy = true;
     drawCanvas.current.text = new PointText({
         content: '',
@@ -49,7 +53,7 @@ drawText.onMouseDown = function (event, drawCanvas) {
         fontSize: drawCanvas.strokeWidth + 16,  // Change this
         selected: true
     });
-    drawText.obj.createTextElement(drawText.obj.id).focus();
+    drawText.obj.createTextElement(drawText.obj.id, drawCanvas).focus();
 };
 
 drawText.onKeyDown = function (event, drawCanvas) {

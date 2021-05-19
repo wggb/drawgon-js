@@ -98,7 +98,9 @@ var DrawCanvas = function (id, defaults) {
     this.minStrokeWidth = 1;  // >= 1
     this.maxStrokeWidth = 9999;
     this.maxZoom = 16;
-    this.minZoon = 0.4;
+    this.minZoom = 0.4;
+
+    this.baseFontSize = 15;
 
     this.pathSmoothing = 10;
     this.cornerSmoothing = 4;
@@ -122,6 +124,9 @@ var DrawCanvas = function (id, defaults) {
 
     this.items = [];
     this.tools = ['brush', 'eraser'];
+
+
+    // ----- CLEAR/RESET -----
 
     this.reset = function () {
         draw.mode = draw.defaults.mode;
@@ -165,6 +170,9 @@ var DrawCanvas = function (id, defaults) {
         });
     };
 
+
+    // ----- SELECTED ITEMS -----
+
     this.getSelectedItems = function () {
         let selectedItems = [];
         draw.items.forEach(function (item) {
@@ -173,10 +181,12 @@ var DrawCanvas = function (id, defaults) {
         return selectedItems;
     };
 
+
+    // ----- VIEW CONFIG -----
+
     this.selectActiveLayer = function (value) {
         project.activeLayer.selected = value;
     };
-
 
     this.getCenter = function () {
         return view.center;
@@ -194,44 +204,6 @@ var DrawCanvas = function (id, defaults) {
         }
     };
 
-    this.loadItems = function (text) {
-        draw.clear();
-
-        try {
-            JSON.parse(text).forEach(function (item) {
-                let mode = item[0].trim().toLowerCase();
-                if (mode == 'path')
-                    draw.items.push(new Path(item[1]));
-                else if (mode == 'pointtext')
-                    draw.items.push(new PointText(item[1]));
-            });
-        } catch (error) { alert('Text can\'t be parsed.'); }
-    };
-
-    this.updateSelectedWidth = function (width) {
-        width = (typeof width == 'undefined' || isNaN(width)) ? draw.strokeWidth : width;
-        if (width < draw.minStrokeWidth) width = draw.minStrokeWidth;
-        if (width > draw.maxStrokeWidth) width = draw.maxStrokeWidth;
-        draw.getSelectedItems().forEach(function (item) {
-            if (item instanceof Path) {
-                item.strokeWidth = width;
-            } else if (item instanceof PointText) {
-                item.fontSize = width + 16;
-            }
-        });
-    };
-
-    this.updateSelectedColor = function (color) {
-        color = (typeof color != 'undefined') ? color : draw.color;
-        draw.getSelectedItems().forEach(function (item) {
-            if (item instanceof Path) {
-                item.strokeColor = color;
-            } else if (item instanceof PointText) {
-                item.fillColor = color;
-            }
-        });
-    };
-
     this.zoomCanvas = function (rate, multiply) {
         let zoomValue = view.zoom * rate;
         multiply = (typeof multiply != 'undefined') ? multiply : 0;
@@ -247,6 +219,92 @@ var DrawCanvas = function (id, defaults) {
             view.zoom = zoomValue;
         }
     };
+
+
+    // ----- UPDATE SELECTED COLOR/WIDTH -----
+
+    this.updateSelectedWidth = function (width) {
+        width = (typeof width == 'undefined' || isNaN(width)) ? draw.strokeWidth : width;
+        if (width < draw.minStrokeWidth) width = draw.minStrokeWidth;
+        if (width > draw.maxStrokeWidth) width = draw.maxStrokeWidth;
+        draw.getSelectedItems().forEach(function (item) {
+            if (item instanceof Path) {
+                item.strokeWidth = width;
+            } else if (item instanceof PointText) {
+                item.fontSize = width + draw.baseFontSize;
+            }
+        });
+    };
+
+    this.updateSelectedColor = function (color) {
+        color = (typeof color != 'undefined') ? color : draw.color;
+        draw.getSelectedItems().forEach(function (item) {
+            if (item instanceof Path) {
+                item.strokeColor = color;
+            } else if (item instanceof PointText) {
+                item.fillColor = color;
+            }
+        });
+    };
+
+
+    // ----- ADD/REMOVE BACKGROUND -----
+    // Can be used to create a background before exporting
+    // images (like jpeg format) and etc.
+
+    let rect = null;
+    this.AddBackground = function () {
+        rect = new paper.Path.Rectangle({
+            point: [
+                view.center.x - (view.size.width / 2),
+                view.center.y - (view.size.height / 2)
+            ],
+            size: [view.size.width, view.size.height],
+            strokeColor: draw.backgroundColor,
+            selected: false
+        });
+        rect.sendToBack();
+        rect.fillColor = draw.backgroundColor;
+    };
+
+    this.RemoveBackground = function () {
+        if (rect) rect.remove();
+    };
+
+
+    // ----- SAVE/LOAD -----
+
+    this.getDataAsJSON = function () {
+        return JSON.stringify(draw.items);
+    };
+
+    this.getDataURLAsJPEG = function () {
+        return document.querySelector(draw.selector).toDataURL('image/jpeg');
+    };
+
+    this.getDataURLAsPNG = function () {
+        return document.querySelector(draw.selector).toDataURL('image/png');
+    };
+
+    this.loadDataFromJSON = function (text) {
+        try {
+            JSON.parse(text).forEach(function (item) {
+                let mode = item[0].trim().toLowerCase();
+                if (mode == 'path')
+                    draw.items.push(new Path(item[1]));
+                else if (mode == 'pointtext')
+                    draw.items.push(new PointText(item[1]));
+            });
+        } catch (error) { alert('Text can\'t be parsed.'); }
+    };
+
+    this.setDataFromJSON = function (text) {
+        draw.clear();
+        draw.loadDataFromJSON(text);
+    }
+
+
+    // ----- EVENTS -----
 
     this.tool.onMouseDown = function (event) {
         draw.mouse.click = event.point;
@@ -326,35 +384,4 @@ var DrawCanvas = function (id, defaults) {
             if (tool.active(draw)) tool.onTouchCancel(event, draw);
         });
     });
-
-    let rect = null;
-    this.AddBackground = function () {
-        rect = new paper.Path.Rectangle({
-            point: [
-                view.center.x - (view.size.width / 2),
-                view.center.y - (view.size.height / 2)
-            ],
-            size: [view.size.width, view.size.height],
-            strokeColor: draw.backgroundColor,
-            selected: false
-        });
-        rect.sendToBack();
-        rect.fillColor = draw.backgroundColor;
-    };
-
-    this.RemoveBackground = function () {
-        if (rect) rect.remove();
-    };
-
-    this.getDataAsJSON = function () {
-        return JSON.stringify(draw.items);
-    };
-
-    this.getDataURLAsJPEG = function () {
-        return document.querySelector(draw.selector).toDataURL('image/jpeg');
-    };
-
-    this.getDataURLAsPNG = function () {
-        return document.querySelector(draw.selector).toDataURL('image/png');
-    };
 };

@@ -4,7 +4,7 @@ drawRect.active = function (drawCanvas) {
     return (!drawCanvas.hold && drawCanvas.mode == 'rect');
 };
 
-drawRect.onMouseDown = function (event, drawCanvas) {
+drawRect.onMouseDrag = function (event, drawCanvas) {
     let clickPoint = drawCanvas.mouse.click;
     let rect = new Rectangle(clickPoint, event.point);
 

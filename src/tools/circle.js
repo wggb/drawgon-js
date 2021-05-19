@@ -4,7 +4,7 @@ drawCircle.active = function (drawCanvas) {
     return (!drawCanvas.hold && drawCanvas.mode == 'circle');
 };
 
-drawCircle.onMouseDown = function (event, drawCanvas) {
+drawCircle.onMouseDrag = function (event, drawCanvas) {
     let clickPoint = drawCanvas.mouse.click;
 
     drawCanvas.current.path = new Path.Circle({
