@@ -44,13 +44,17 @@ drawText.obj['pushCurrentText'] = function (drawCanvas) {
 
 drawText.onMouseDown = function (event, drawCanvas) {
     drawText.obj.drawCanvas = drawCanvas;
-    if (drawCanvas.current.text) drawText.obj.pushCurrentText(drawCanvas);
+    if (drawCanvas.current.text) {
+        drawCanvas.current.text.selected = false;
+        drawText.obj.pushCurrentText(drawCanvas);
+    }
+
     drawCanvas.busy = true;
     drawCanvas.current.text = new PointText({
         content: '',
         point: drawCanvas.mouse.click,
         fillColor: drawCanvas.strokeColor,
-        fontSize: drawCanvas.strokeWidth + 16,  // Change this
+        fontSize: drawCanvas.strokeWidth + drawCanvas.baseFontSize,
         selected: true
     });
     drawText.obj.createTextElement(drawText.obj.id, drawCanvas).focus();
