@@ -1,7 +1,7 @@
 {
   "name": "draw-js",
-  "version": "0.1.0",
-  "description": "Canvas drawing library",
+  "version": "1.0.0-alpha",
+  "description": "Customizable canvas drawing library",
   "main": "dist/draw.js",
   "scripts": {
     "dist": "npm-run-all dist-full dist-full-min dist-core dist-core-min",
@@ -20,6 +20,8 @@
     "whiteboard",
     "paint",
     "signature",
+    "custom",
+    "tool",
     "paperjs"
   ],
   "author": "WhiteGooseGoesBlack (https://github.com/wggb)",

@@ -1,5 +1,5 @@
 /*!
-  * Draw-JS v0.1.0 (https://github.com/wggb/draw-js)
+  * Draw-JS v1.0.0-alpha (https://github.com/wggb/draw-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
   * @license MIT (https://github.com/wggb/draw-js/blob/main/LICENSE)
   */
