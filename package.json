@@ -6,9 +6,9 @@
   "scripts": {
     "dist": "npm-run-all dist-full dist-full-min dist-core dist-core-min",
     "dist-full": "uglifyjs -b beautify --comments some src/draw.js src/tools/*.js -o dist/draw.js",
-    "dist-full-min": "uglifyjs --comments some src/draw.js src/tools/*.js -o dist/draw-min.js",
+    "dist-full-min": "uglifyjs --comments some src/draw.js src/tools/*.js -o dist/draw.min.js",
     "dist-core": "uglifyjs -b beautify --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core.js",
-    "dist-core-min": "uglifyjs --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core-min.js"
+    "dist-core-min": "uglifyjs --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core.min.js"
   },
   "repository": {
     "type": "git",
