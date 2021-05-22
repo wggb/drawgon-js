@@ -1,20 +1,20 @@
-var drawText = new DrawTool('text');
+var drawgonText = new DrawgonTool('text');
 
-drawText.active = function (drawCanvas) {
-    return (!drawCanvas.hold && drawCanvas.mode == 'text');
+drawgonText.active = function (drawgon) {
+    return (!drawgon.hold && drawgon.mode == 'text');
 };
 
-drawText.obj['shift'] = false;
+drawgonText.obj['shift'] = false;
 
-drawText.obj['id'] = 'draw-text-element';
+drawgonText.obj['id'] = 'draw-text-element';
 
-drawText.obj['drawCanvas'] = null;
+drawgonText.obj['drawgon'] = null;
 
-drawText.obj['createTextElement'] = function (id, drawCanvas) {
-    drawText.obj.removeTextElement(id);
+drawgonText.obj['createTextElement'] = function (id, drawgon) {
+    drawgonText.obj.removeTextElement(id);
     let element = document.createElement('textarea');
     element.id = id;
-    element.oninput = drawText.obj.readTextElement;
+    element.oninput = drawgonText.obj.readTextElement;
     element.style.width = 0;
     element.style.height = 0;
     element.style.opacity = 0;
@@ -23,52 +23,52 @@ drawText.obj['createTextElement'] = function (id, drawCanvas) {
     return element;
 };
 
-drawText.obj['removeTextElement'] = function () {
+drawgonText.obj['removeTextElement'] = function () {
     try {
-        document.body.removeChild(document.getElementById(drawText.obj.id));
+        document.body.removeChild(document.getElementById(drawgonText.obj.id));
     } catch (e) { }
 };
 
-drawText.obj['readTextElement'] = function () {
-    let drawCanvas = drawText.obj.drawCanvas;
-    if (drawCanvas.busy) drawCanvas.current.text.content =
-        document.getElementById(drawText.obj.id).value;
+drawgonText.obj['readTextElement'] = function () {
+    let drawgon = drawgonText.obj.drawgon;
+    if (drawgon.busy) drawgon.current.text.content =
+        document.getElementById(drawgonText.obj.id).value;
 };
 
-drawText.obj['pushCurrentText'] = function (drawCanvas) {
-    if (drawCanvas.current.text.content.trim() != '') {
-        drawCanvas.current.text.name = '#' + drawCanvas.current.id++;
-        drawCanvas.items.push(drawCanvas.current.text);
+drawgonText.obj['pushCurrentText'] = function (drawgon) {
+    if (drawgon.current.text.content.trim() != '') {
+        drawgon.current.text.name = '#' + drawgon.current.id++;
+        drawgon.items.push(drawgon.current.text);
     }
 };
 
-drawText.onMouseDown = function (event, drawCanvas) {
-    drawText.obj.drawCanvas = drawCanvas;
-    if (drawCanvas.current.text) {
-        drawCanvas.current.text.selected = false;
-        drawText.obj.pushCurrentText(drawCanvas);
+drawgonText.onMouseDown = function (event, drawgon) {
+    drawgonText.obj.drawgon = drawgon;
+    if (drawgon.current.text) {
+        drawgon.current.text.selected = false;
+        drawgonText.obj.pushCurrentText(drawgon);
     }
 
-    drawCanvas.busy = true;
-    drawCanvas.current.text = new PointText({
+    drawgon.busy = true;
+    drawgon.current.text = new PointText({
         content: '',
-        point: drawCanvas.mouse.click,
-        fillColor: drawCanvas.strokeColor,
-        fontSize: drawCanvas.strokeWidth + drawCanvas.baseFontSize,
+        point: drawgon.mouse.click,
+        fillColor: drawgon.strokeColor,
+        fontSize: drawgon.strokeWidth + drawgon.baseFontSize,
         selected: true
     });
-    drawText.obj.createTextElement(drawText.obj.id, drawCanvas).focus();
+    drawgonText.obj.createTextElement(drawgonText.obj.id, drawgon).focus();
 };
 
-drawText.onKeyDown = function (event, drawCanvas) {
-    if (event.key == 'shift') drawText.obj.shift = true;
-    if (drawCanvas.busy && event.key == 'enter' && !drawText.obj.shift) {
-        drawCanvas.current.text.selected = false;
-        drawText.obj.removeTextElement();
-        drawCanvas.resetStats();
+drawgonText.onKeyDown = function (event, drawgon) {
+    if (event.key == 'shift') drawgonText.obj.shift = true;
+    if (drawgon.busy && event.key == 'enter' && !drawgonText.obj.shift) {
+        drawgon.current.text.selected = false;
+        drawgonText.obj.removeTextElement();
+        drawgon.resetStats();
     }
 };
 
-drawText.onKeyUp = function (event, drawCanvas) {
-    if (event.key == 'shift') drawText.obj.shift = false;
+drawgonText.onKeyUp = function (event, drawgon) {
+    if (event.key == 'shift') drawgonText.obj.shift = false;
 };

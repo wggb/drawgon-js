@@ -1,18 +1,18 @@
 {
-  "name": "draw-js",
+  "name": "drawgon",
   "version": "1.0.0-alpha",
   "description": "Customizable canvas drawing library",
-  "main": "dist/draw.js",
+  "main": "dist/drawgon.js",
   "scripts": {
     "dist": "npm-run-all dist-full dist-full-min dist-core dist-core-min",
-    "dist-full": "uglifyjs -b beautify --comments some src/draw.js src/tools/*.js -o dist/draw.js",
-    "dist-full-min": "uglifyjs --comments some src/draw.js src/tools/*.js -o dist/draw.min.js",
-    "dist-core": "uglifyjs -b beautify --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core.js",
-    "dist-core-min": "uglifyjs --comments some src/draw.js src/tools/brush.js src/tools/eraser.js -o dist/draw-core.min.js"
+    "dist-full": "uglifyjs -b beautify --comments some src/drawgon.js src/tools/*.js -o dist/drawgon.js",
+    "dist-full-min": "uglifyjs --comments some src/drawgon.js src/tools/*.js -o dist/drawgon.min.js",
+    "dist-core": "uglifyjs -b beautify --comments some src/drawgon.js src/tools/brush.js src/tools/eraser.js -o dist/drawgon-core.js",
+    "dist-core-min": "uglifyjs --comments some src/drawgon.js src/tools/brush.js src/tools/eraser.js -o dist/drawgon-core.min.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wggb/draw-js.git"
+    "url": "git+https://github.com/wggb/drawgon-js.git"
   },
   "keywords": [
     "canvas",
@@ -22,14 +22,15 @@
     "signature",
     "custom",
     "tool",
-    "paperjs"
+    "paperjs",
+    "drawgon"
   ],
   "author": "WhiteGooseGoesBlack (https://github.com/wggb)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wggb/draw-js/issues"
+    "url": "https://github.com/wggb/drawgon-js/issues"
   },
-  "homepage": "https://github.com/wggb/draw-js#readme",
+  "homepage": "https://github.com/wggb/drawgon-js#readme",
   "dependencies": {
     "paper": "^0.12.15"
   },

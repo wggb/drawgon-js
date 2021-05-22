@@ -1,5 +1,5 @@
-# DrawJS
-[![GitHub license](https://img.shields.io/github/license/wggb/draw-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/draw-js/blob/main/LICENSE) [![GitHub top language](https://img.shields.io/github/languages/top/wggb/draw-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/draw-js)
+# DrawgonJS
+[![GitHub license](https://img.shields.io/github/license/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js/blob/main/LICENSE) [![GitHub top language](https://img.shields.io/github/languages/top/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js)
 
 Customizable canvas drawing library.
 
@@ -7,20 +7,20 @@ Customizable canvas drawing library.
 Add scripts right before closing `</body>` tag:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/paper@0.12.15/dist/paper-full.js" integrity="sha256-79tRDrGuhTEnN/H4T7NmKcL6qLv/ylgErz4tTK2iKs4=" crossorigin="anonymous"></script>
-<script src="draw-js/dist/draw.min.js"></script>
+<script src="drawgon/dist/drawgon.min.js"></script>
 ```
 
 You need to have a canvas with a specific id and these attributes in your page:
 ```html
-<canvas resize="true" id="draw-js" data-paper-scope="1"></canvas>
+<canvas resize="true" id="drawgon" data-paper-scope="1"></canvas>
 ```
 
-Initialize DrawJS:
+Initialize DrawgonJS:
 ```js
-var draw = new DrawCanvas('draw-js');
+var draw = new Drawgon("drawgon");
 
 // Or you can change the default configurations:
-var draw = new DrawCanvas('draw-js', {
+var draw = new Drawgon("drawgon", {
     backgroundColor: "#ffffff",
     mode: "draw",
     strokeColor: "#000000",
@@ -37,12 +37,12 @@ var draw = new DrawCanvas('draw-js', {
 });
 ```
 
-Choose draw tools:
+Choose tools:
 ```js
 draw.toolNames = ["brush", "eraser"];  // Default value of toolNames
 
 // Or choosing all available tools:
-draw.toolNames = DrawTool.getInstanceNames();
+draw.toolNames = DrawgonTool.getInstanceNames();
 ```
 
 Now the canvas is ready to use.

@@ -1,10 +1,10 @@
 /*!
-  * Draw-JS v1.0.0-alpha (https://github.com/wggb/draw-js)
+  * DrawgonJS v1.0.0-alpha (https://github.com/wggb/drawgon-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
-  * @license MIT (https://github.com/wggb/draw-js/blob/main/LICENSE)
+  * @license MIT (https://github.com/wggb/drawgon-js/blob/main/LICENSE)
   */
 {
-    let drawTools = {
+    let drawgonTools = {
         all: [],
         getAllNames: function() {
             let names = [];
@@ -29,17 +29,17 @@
             if (tools.length > 0) return tools[0]; else return null;
         },
         add: function(tool) {
-            if (tool instanceof DrawTool) this.all.push(tool); else console.error("Parameter must be instance of 'DrawTool'.");
+            if (tool instanceof DrawgonTool) this.all.push(tool); else console.error("Parameter must be instance of 'DrawgonTool'.");
         },
         remove: function(name) {
             this.all.forEach(function(item, index) {
-                if (item.name == name) drawTools.all.splice(index, 1);
+                if (item.name == name) drawgonTools.all.splice(index, 1);
             });
         }
     };
-    var DrawTool = function(name, error) {
+    var DrawgonTool = function(name, error) {
         let unique = true;
-        drawTools.getAll().forEach(function(item) {
+        drawgonTools.getAll().forEach(function(item) {
             if (item.name == name && unique) {
                 if (typeof error == "undefined" || error) console.error("You have multiple tools with the same name!");
                 unique = false;
@@ -47,56 +47,56 @@
         });
         this.name = name;
         this.obj = {};
-        this.active = function(drawCanvas) {
+        this.active = function(drawgon) {
             return false;
         };
-        this.onMouseDown = function(event, drawCanvas) {
+        this.onMouseDown = function(event, drawgon) {
             return;
         };
-        this.onMouseDrag = function(event, drawCanvas) {
+        this.onMouseDrag = function(event, drawgon) {
             return;
         };
-        this.onMouseMove = function(event, drawCanvas) {
+        this.onMouseMove = function(event, drawgon) {
             return;
         };
-        this.onMouseUp = function(event, drawCanvas) {
+        this.onMouseUp = function(event, drawgon) {
             return;
         };
-        this.onKeyDown = function(event, drawCanvas) {
+        this.onKeyDown = function(event, drawgon) {
             return;
         };
-        this.onKeyUp = function(event, drawCanvas) {
+        this.onKeyUp = function(event, drawgon) {
             return;
         };
-        this.onWheel = function(event, drawCanvas) {
+        this.onWheel = function(event, drawgon) {
             return;
         };
-        this.onTouchStart = function(event, drawCanvas) {
+        this.onTouchStart = function(event, drawgon) {
             return;
         };
-        this.onTouchMove = function(event, drawCanvas) {
+        this.onTouchMove = function(event, drawgon) {
             return;
         };
-        this.onTouchEnd = function(event, drawCanvas) {
+        this.onTouchEnd = function(event, drawgon) {
             return;
         };
-        this.onTouchCancel = function(event, drawCanvas) {
+        this.onTouchCancel = function(event, drawgon) {
             return;
         };
-        if (unique) drawTools.add(this);
+        if (unique) drawgonTools.add(this);
     };
-    DrawTool.getInstance = function(instanceName) {
-        return drawTools.get(instanceName);
+    DrawgonTool.getInstance = function(instanceName) {
+        return drawgonTools.get(instanceName);
     };
-    DrawTool.getInstances = function() {
-        return drawTools.getAll();
+    DrawgonTool.getInstances = function() {
+        return drawgonTools.getAll();
     };
-    DrawTool.getInstanceNames = function() {
-        return drawTools.getAllNames();
+    DrawgonTool.getInstanceNames = function() {
+        return drawgonTools.getAllNames();
     };
 }
 
-var DrawCanvas = function(id, config) {
+var Drawgon = function(id, config) {
     paper.install(window);
     paper.setup(id);
     let $this = this;
@@ -281,146 +281,146 @@ var DrawCanvas = function(id, config) {
     this.tool.onMouseDown = function(event) {
         $this.mouse.click = event.point;
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onMouseDown(event, $this);
         });
     };
     this.tool.onMouseDrag = function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onMouseDrag(event, $this);
         });
     };
     this.tool.onMouseMove = function(event) {
         $this.mouse.point = event.point;
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onMouseMove(event, $this);
         });
     };
     this.tool.onMouseUp = function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onMouseUp(event, $this);
         });
     };
     this.tool.onKeyDown = function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onKeyDown(event, $this);
         });
     };
     this.tool.onKeyUp = function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onKeyUp(event, $this);
         });
     };
     document.querySelector(this.selector).addEventListener("wheel", function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onWheel(event, $this);
         });
     });
     document.querySelector(this.selector).addEventListener("touchstart", function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onTouchStart(event, $this);
         });
     });
     document.querySelector(this.selector).addEventListener("touchmove", function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onTouchMove(event, $this);
         });
     });
     document.querySelector(this.selector).addEventListener("touchend", function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onTouchEnd(event, $this);
         });
     });
     document.querySelector(this.selector).addEventListener("touchcancel", function(event) {
         $this.toolNames.forEach(function(name) {
-            let tool = DrawTool.getInstance(name);
+            let tool = DrawgonTool.getInstance(name);
             if (tool.active($this)) tool.onTouchCancel(event, $this);
         });
     });
 };
 
-var drawBrush = new DrawTool("brush");
+var drawgonBrush = new DrawgonTool("brush");
 
-drawBrush.active = function(drawCanvas) {
-    return !drawCanvas.hold && drawCanvas.mode == "draw";
+drawgonBrush.active = function(drawgon) {
+    return !drawgon.hold && drawgon.mode == "draw";
 };
 
-drawBrush.onMouseDown = function(event, drawCanvas) {
-    drawCanvas.busy = true;
-    let pathName = "#" + drawCanvas.current.id++;
-    drawCanvas.current.path = new Path({
+drawgonBrush.onMouseDown = function(event, drawgon) {
+    drawgon.busy = true;
+    let pathName = "#" + drawgon.current.id++;
+    drawgon.current.path = new Path({
         segments: [ event.point ],
-        strokeColor: drawCanvas.strokeColor,
-        strokeWidth: drawCanvas.strokeWidth,
-        strokeCap: drawCanvas.strokeCap,
+        strokeColor: drawgon.strokeColor,
+        strokeWidth: drawgon.strokeWidth,
+        strokeCap: drawgon.strokeCap,
         name: pathName
     });
-    drawCanvas.current.path.add(event.point);
+    drawgon.current.path.add(event.point);
 };
 
-drawBrush.onMouseDrag = function(event, drawCanvas) {
-    if (drawCanvas.busy) drawCanvas.current.path.add(event.point);
+drawgonBrush.onMouseDrag = function(event, drawgon) {
+    if (drawgon.busy) drawgon.current.path.add(event.point);
 };
 
-drawBrush.onMouseUp = function(event, drawCanvas) {
-    if (drawCanvas.busy && drawCanvas.current.path) {
-        if (drawCanvas.current.path.segments.length > 5) {
-            drawCanvas.current.path.simplify(drawCanvas.pathSmoothing);
-        } else if (drawCanvas.current.path.segments.length <= 2) {
-            drawCanvas.current.path.add(event.point.add(.1));
-            drawCanvas.current.path.simplify(drawCanvas.pathSmoothing * 5);
+drawgonBrush.onMouseUp = function(event, drawgon) {
+    if (drawgon.busy && drawgon.current.path) {
+        if (drawgon.current.path.segments.length > 5) {
+            drawgon.current.path.simplify(drawgon.pathSmoothing);
+        } else if (drawgon.current.path.segments.length <= 2) {
+            drawgon.current.path.add(event.point.add(.1));
+            drawgon.current.path.simplify(drawgon.pathSmoothing * 5);
         }
-        drawCanvas.items.push(drawCanvas.current.path);
-        drawCanvas.resetStats();
+        drawgon.items.push(drawgon.current.path);
+        drawgon.resetStats();
     }
 };
 
-var drawEraser = new DrawTool("eraser");
+var drawgonEraser = new DrawgonTool("eraser");
 
-drawEraser.active = function(drawCanvas) {
-    return !drawCanvas.hold && drawCanvas.mode == "del";
+drawgonEraser.active = function(drawgon) {
+    return !drawgon.hold && drawgon.mode == "del";
 };
 
-drawEraser.obj["path"] = null;
+drawgonEraser.obj["path"] = null;
 
-drawEraser.obj["removeIntersections"] = function(drawCanvas) {
-    drawCanvas.items.forEach(function(item) {
-        let intersections = drawEraser.obj.path.getIntersections(item instanceof Path ? item : new Path.Rectangle(item.bounds));
-        if (intersections.length > 0) drawCanvas.deleteItem(item.name);
+drawgonEraser.obj["removeIntersections"] = function(drawgon) {
+    drawgon.items.forEach(function(item) {
+        let intersections = drawgonEraser.obj.path.getIntersections(item instanceof Path ? item : new Path.Rectangle(item.bounds));
+        if (intersections.length > 0) drawgon.deleteItem(item.name);
     });
 };
 
-drawEraser.onMouseDown = function(event, drawCanvas) {
-    drawCanvas.busy = true;
-    drawEraser.obj.path = new Path({
+drawgonEraser.onMouseDown = function(event, drawgon) {
+    drawgon.busy = true;
+    drawgonEraser.obj.path = new Path({
         segments: [ event.point ],
         strokeWidth: 1
     });
-    drawEraser.obj.path.add(event.point);
-    drawEraser.obj.removeIntersections(drawCanvas);
+    drawgonEraser.obj.path.add(event.point);
+    drawgonEraser.obj.removeIntersections(drawgon);
 };
 
-drawEraser.onMouseDrag = function(event, drawCanvas) {
-    if (drawCanvas.busy) {
-        if (event.item) drawCanvas.deleteItem(event.item.name);
-        drawEraser.obj.path.add(event.point);
-        drawEraser.obj.removeIntersections(drawCanvas);
+drawgonEraser.onMouseDrag = function(event, drawgon) {
+    if (drawgon.busy) {
+        if (event.item) drawgon.deleteItem(event.item.name);
+        drawgonEraser.obj.path.add(event.point);
+        drawgonEraser.obj.removeIntersections(drawgon);
     }
 };
 
-drawEraser.onMouseUp = function(event, drawCanvas) {
-    if (drawEraser.obj.path) {
-        drawEraser.obj.path.remove();
-        drawEraser.obj.path = null;
+drawgonEraser.onMouseUp = function(event, drawgon) {
+    if (drawgonEraser.obj.path) {
+        drawgonEraser.obj.path.remove();
+        drawgonEraser.obj.path = null;
     }
-    drawCanvas.resetStats();
+    drawgon.resetStats();
 };

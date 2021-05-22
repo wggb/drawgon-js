@@ -1,13 +1,13 @@
-var drawCircle = new DrawTool('circle');
+var drawgonCircle = new DrawgonTool('circle');
 
-drawCircle.active = function (drawCanvas) {
-    return (!drawCanvas.hold && drawCanvas.mode == 'circle');
+drawgonCircle.active = function (drawgon) {
+    return (!drawgon.hold && drawgon.mode == 'circle');
 };
 
-drawCircle.onMouseDrag = function (event, drawCanvas) {
-    let clickPoint = drawCanvas.mouse.click;
+drawgonCircle.onMouseDrag = function (event, drawgon) {
+    let clickPoint = drawgon.mouse.click;
 
-    drawCanvas.current.path = new Path.Circle({
+    drawgon.current.path = new Path.Circle({
         center: new Point(
             clickPoint.x - ((clickPoint.x - event.point.x) / 2),
             clickPoint.y - ((clickPoint.y - event.point.y) / 2)
@@ -18,15 +18,15 @@ drawCircle.onMouseDrag = function (event, drawCanvas) {
         )
     });
 
-    drawCanvas.current.path.strokeColor = drawCanvas.strokeColor;
-    drawCanvas.current.path.strokeWidth = drawCanvas.strokeWidth;
-    drawCanvas.current.path.removeOnDrag();
+    drawgon.current.path.strokeColor = drawgon.strokeColor;
+    drawgon.current.path.strokeWidth = drawgon.strokeWidth;
+    drawgon.current.path.removeOnDrag();
 };
 
-drawCircle.onMouseUp = function (event, drawCanvas) {
-    if (drawCanvas.current.path) {
-        drawCanvas.current.path.name = '#' + drawCanvas.current.id++;
-        drawCanvas.items.push(drawCanvas.current.path);
+drawgonCircle.onMouseUp = function (event, drawgon) {
+    if (drawgon.current.path) {
+        drawgon.current.path.name = '#' + drawgon.current.id++;
+        drawgon.items.push(drawgon.current.path);
     }
-    drawCanvas.resetStats();
+    drawgon.resetStats();
 };

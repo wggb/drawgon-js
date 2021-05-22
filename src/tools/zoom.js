@@ -1,10 +1,10 @@
-var drawZoom = new DrawTool('zoom');
+var drawgonZoom = new DrawgonTool('zoom');
 
-drawZoom.active = function (drawCanvas) { return true; };
+drawgonZoom.active = function (drawgon) { return true; };
 
-drawZoom.obj['onPinchDistance'] = null;
+drawgonZoom.obj['onPinchDistance'] = null;
 
-drawZoom.obj['getEventDistance'] = function (event) {
+drawgonZoom.obj['getEventDistance'] = function (event) {
     let touches = event.touches;
     return Math.sqrt(
         Math.pow(touches[0].clientX - touches[1].clientX, 2) +
@@ -12,22 +12,22 @@ drawZoom.obj['getEventDistance'] = function (event) {
     );
 };
 
-drawZoom.onWheel = function (event, drawCanvas) {
-    if (event.deltaY < 0) drawCanvas.zoomCanvas(1.2, 5);   // Why 5?
-    else if (event.deltaY > 0) drawCanvas.zoomCanvas(0.8, 5);
+drawgonZoom.onWheel = function (event, drawgon) {
+    if (event.deltaY < 0) drawgon.zoomCanvas(1.2, 5);   // Why 5?
+    else if (event.deltaY > 0) drawgon.zoomCanvas(0.8, 5);
 };
 
-drawZoom.onTouchStart = function (event, drawCanvas) {
-    if (drawCanvas.mode == 'move' && event.touches.length > 1) {
-        drawZoom.obj.onPinchDistance = drawZoom.obj.getEventDistance(event);
+drawgonZoom.onTouchStart = function (event, drawgon) {
+    if (drawgon.mode == 'move' && event.touches.length > 1) {
+        drawgonZoom.obj.onPinchDistance = drawgonZoom.obj.getEventDistance(event);
     }
 };
 
-drawZoom.onTouchMove = function (event, drawCanvas) {
-    if (drawCanvas.mode == 'move' && event.touches.length > 1) {
+drawgonZoom.onTouchMove = function (event, drawgon) {
+    if (drawgon.mode == 'move' && event.touches.length > 1) {
         event.preventDefault();
-        let newPinchDistance = drawZoom.obj.getEventDistance(event);
-        draw.zoomCanvas(Math.abs(newPinchDistance / onPinchDistance));
-        drawZoom.obj.onPinchDistance = newPinchDistance;
+        let newPinchDistance = drawgonZoom.obj.getEventDistance(event);
+        drawgon.zoomCanvas(Math.abs(newPinchDistance / onPinchDistance));
+        drawgonZoom.obj.onPinchDistance = newPinchDistance;
     }
 };
