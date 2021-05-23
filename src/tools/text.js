@@ -4,6 +4,8 @@ drawgonText.active = function (drawgon) {
     return (!drawgon.hold && drawgon.mode == 'text');
 };
 
+drawgonText.obj['enterToSubmit'] = true;
+
 drawgonText.obj['shift'] = false;
 
 drawgonText.obj['id'] = 'draw-text-element';
@@ -62,7 +64,12 @@ drawgonText.onMouseDown = function (event, drawgon) {
 
 drawgonText.onKeyDown = function (event, drawgon) {
     if (event.key == 'shift') drawgonText.obj.shift = true;
-    if (drawgon.busy && event.key == 'enter' && !drawgonText.obj.shift) {
+
+    // if enterToSubmit is true => shift must be false to submit.
+    // if enterToSubmit is false => shift must be true to submit.
+    let submit = drawgonText.obj.enterToSubmit != drawgonText.obj.shift;
+
+    if (drawgon.busy && event.key == 'enter' && submit) {
         drawgon.current.text.selected = false;
         drawgonText.obj.removeTextElement();
         drawgon.resetStats();
