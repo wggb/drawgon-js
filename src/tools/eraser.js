@@ -1,7 +1,7 @@
 var drawgonEraser = new DrawgonTool('eraser');
 
 drawgonEraser.active = function (drawgon) {
-    return (!drawgon.hold && drawgon.mode == 'del');
+    return (!drawgon.hold && drawgon.mode == 'del' && drawgon.delete);
 };
 
 drawgonEraser.obj['path'] = null;
