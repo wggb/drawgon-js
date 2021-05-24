@@ -149,11 +149,32 @@ var Drawgon = function (id, config) {
     this.toolNames = ['brush', 'eraser'];
 
 
-    // ----- CHANGE MODE -----
+    // ----- MODE CONFIG -----
 
     this.changeMode = function (mode) {
         $this.resetStats();
         $this.mode = mode;
+        return $this.mode;
+    };
+
+
+    // ----- STROKE CONFIG -----
+
+    this.changeStrokeWidth = function (width) {
+        width = Number(width);
+        if (!isNaN(width) && width >= $this.minStrokeWidth && width <= $this.maxStrokeWidth)
+            $this.width = width;
+        return $this.strokeWidth;
+    };
+
+    this.changeStrokeColor = function (color) {
+        $this.strokeColor = color;
+        return $this.strokeColor;
+    };
+
+    this.changeStrokeCap = function (cap) {
+        $this.strokeCap = cap;
+        return $this.strokeCap;
     };
 
 
@@ -261,7 +282,8 @@ var Drawgon = function (id, config) {
     // ----- CHANGE SELECTED COLOR/WIDTH -----
 
     this.changeSelectedWidth = function (width) {
-        width = (typeof width == 'undefined' || isNaN(width)) ? $this.strokeWidth : width;
+        width = (typeof width == 'undefined' || isNaN(Number(width)))
+            ? $this.strokeWidth : Number(width);
         if (width < $this.minStrokeWidth) width = $this.minStrokeWidth;
         if (width > $this.maxStrokeWidth) width = $this.maxStrokeWidth;
         $this.getSelectedItems().forEach(function (item) {
