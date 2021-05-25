@@ -1,5 +1,5 @@
 # DrawgonJS
-[![GitHub license](https://img.shields.io/github/license/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js/blob/main/LICENSE) ![npm](https://img.shields.io/npm/v/drawgon?color=F7E018&style=flat-square)
+[![GitHub license](https://img.shields.io/github/license/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js/blob/main/LICENSE) [![npm](https://img.shields.io/npm/v/drawgon?color=F7E018&style=flat-square)](https://www.npmjs.com/package/drawgon)
 
 Customizable canvas drawing library.
 
