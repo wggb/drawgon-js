@@ -1,6 +1,6 @@
 {
   "name": "drawgon",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-alpha.1",
   "description": "Customizable canvas drawing library",
   "main": "dist/drawgon.js",
   "scripts": {
@@ -15,6 +15,7 @@
     "url": "git+https://github.com/wggb/drawgon-js.git"
   },
   "keywords": [
+    "front-end",
     "canvas",
     "draw",
     "whiteboard",

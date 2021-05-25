@@ -1,5 +1,5 @@
 /*!
-  * DrawgonJS v1.0.0-alpha (https://github.com/wggb/drawgon-js)
+  * DrawgonJS v1.0.0-alpha.1 (https://github.com/wggb/drawgon-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
   * @license MIT (https://github.com/wggb/drawgon-js/blob/main/LICENSE)
   */

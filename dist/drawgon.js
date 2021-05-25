@@ -1,5 +1,5 @@
 /*!
-  * DrawgonJS v1.0.0-alpha (https://github.com/wggb/drawgon-js)
+  * DrawgonJS v1.0.0-alpha.1 (https://github.com/wggb/drawgon-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
   * @license MIT (https://github.com/wggb/drawgon-js/blob/main/LICENSE)
   */
@@ -148,6 +148,20 @@ var Drawgon = function(id, config) {
     this.changeMode = function(mode) {
         $this.resetStats();
         $this.mode = mode;
+        return $this.mode;
+    };
+    this.changeStrokeWidth = function(width) {
+        width = Number(width);
+        if (!isNaN(width) && width >= $this.minStrokeWidth && width <= $this.maxStrokeWidth) $this.width = width;
+        return $this.strokeWidth;
+    };
+    this.changeStrokeColor = function(color) {
+        $this.strokeColor = color;
+        return $this.strokeColor;
+    };
+    this.changeStrokeCap = function(cap) {
+        $this.strokeCap = cap;
+        return $this.strokeCap;
     };
     this.resetStats = function() {
         if ($this.current.path) $this.current.path.selected = false;
@@ -220,7 +234,7 @@ var Drawgon = function(id, config) {
         }
     };
     this.changeSelectedWidth = function(width) {
-        width = typeof width == "undefined" || isNaN(width) ? $this.strokeWidth : width;
+        width = typeof width == "undefined" || isNaN(Number(width)) ? $this.strokeWidth : Number(width);
         if (width < $this.minStrokeWidth) width = $this.minStrokeWidth;
         if (width > $this.maxStrokeWidth) width = $this.maxStrokeWidth;
         $this.getSelectedItems().forEach(function(item) {
@@ -412,7 +426,7 @@ drawgonCircle.onMouseUp = function(event, drawgon) {
 var drawgonEraser = new DrawgonTool("eraser");
 
 drawgonEraser.active = function(drawgon) {
-    return !drawgon.hold && drawgon.mode == "del";
+    return !drawgon.hold && drawgon.mode == "del" && drawgon.delete;
 };
 
 drawgonEraser.obj["path"] = null;
@@ -497,6 +511,8 @@ drawgonText.active = function(drawgon) {
     return !drawgon.hold && drawgon.mode == "text";
 };
 
+drawgonText.obj["enterToSubmit"] = true;
+
 drawgonText.obj["shift"] = false;
 
 drawgonText.obj["id"] = "draw-text-element";
@@ -553,7 +569,8 @@ drawgonText.onMouseDown = function(event, drawgon) {
 
 drawgonText.onKeyDown = function(event, drawgon) {
     if (event.key == "shift") drawgonText.obj.shift = true;
-    if (drawgon.busy && event.key == "enter" && !drawgonText.obj.shift) {
+    let submit = drawgonText.obj.enterToSubmit != drawgonText.obj.shift;
+    if (drawgon.busy && event.key == "enter" && submit) {
         drawgon.current.text.selected = false;
         drawgonText.obj.removeTextElement();
         drawgon.resetStats();

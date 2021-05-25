@@ -1,13 +1,13 @@
 # DrawgonJS
-[![GitHub license](https://img.shields.io/github/license/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js/blob/main/LICENSE) [![GitHub top language](https://img.shields.io/github/languages/top/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js)
+[![GitHub license](https://img.shields.io/github/license/wggb/drawgon-js?color=%23F7E018&style=flat-square)](https://github.com/wggb/drawgon-js/blob/main/LICENSE) ![npm](https://img.shields.io/npm/v/drawgon?color=F7E018&style=flat-square)
 
 Customizable canvas drawing library.
 
 # Usage
 Add scripts right before closing `</body>` tag:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/paper@0.12.15/dist/paper-full.js" integrity="sha256-79tRDrGuhTEnN/H4T7NmKcL6qLv/ylgErz4tTK2iKs4=" crossorigin="anonymous"></script>
-<script src="drawgon/dist/drawgon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/paper@0.12.15/dist/paper-full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/drawgon@1.0.0-alpha.1/dist/drawgon.min.js"></script>
 ```
 
 You need to have a canvas with a specific id and these attributes in your page:
