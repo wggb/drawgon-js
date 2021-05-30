@@ -1,5 +1,5 @@
 /*!
-  * DrawgonJS v1.0.0-alpha.1 (https://github.com/wggb/drawgon-js)
+  * DrawgonJS v1.0.0-alpha.2 (https://github.com/wggb/drawgon-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
   * @license MIT (https://github.com/wggb/drawgon-js/blob/main/LICENSE)
   */
@@ -152,7 +152,7 @@ var Drawgon = function(id, config) {
     };
     this.changeStrokeWidth = function(width) {
         width = Number(width);
-        if (!isNaN(width) && width >= $this.minStrokeWidth && width <= $this.maxStrokeWidth) $this.width = width;
+        if (!isNaN(width) && width >= $this.minStrokeWidth && width <= $this.maxStrokeWidth) $this.strokeWidth = width; else if (!isNaN(width) && width < $this.minStrokeWidth) $this.strokeWidth = $this.minStrokeWidth; else if (!isNaN(width) && width > $this.maxStrokeWidth) $this.strokeWidth = $this.maxStrokeWidth;
         return $this.strokeWidth;
     };
     this.changeStrokeColor = function(color) {
