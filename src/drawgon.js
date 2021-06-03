@@ -103,6 +103,7 @@ var Drawgon = function (id, config) {
         baseFontSize: 15,
         pathSmoothing: 10,
         cornerSmoothing: 4,
+        center: [view.center.x, view.center.y],
         zoom: 1,
         maxZoom: 16,
         minZoom: 0.4
@@ -126,6 +127,7 @@ var Drawgon = function (id, config) {
     this.pathSmoothing = this.config.pathSmoothing;
     this.cornerSmoothing = this.config.cornerSmoothing;
 
+    view.center = this.config.center;
     view.zoom = this.config.zoom;
     this.maxZoom = this.config.maxZoom;
     this.minZoom = this.config.minZoom;
@@ -209,6 +211,7 @@ var Drawgon = function (id, config) {
         $this.mode = $this.config.mode;
         $this.strokeWidth = $this.config.strokeWidth;
         $this.strokeColor = $this.config.strokeColor;
+        view.center = $this.config.center;
         view.zoom = $this.config.zoom;
     };
 
