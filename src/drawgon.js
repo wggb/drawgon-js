@@ -357,13 +357,19 @@ var Drawgon = function (id, config) {
                     $this.items.push(new Path(item[1]));
                 else if (mode == 'pointtext')
                     $this.items.push(new PointText(item[1]));
+                else if (mode == 'raster')
+                    $this.items.push(new Raster(item[1]));
             });
-        } catch (error) { alert('Text can\'t be parsed.'); }
+            return true;
+        } catch (error) {
+            alert('Text can\'t be parsed.');
+            return false;
+        }
     };
 
     this.setDataFromJSON = function (text) {
         $this.clear();
-        $this.loadDataFromJSON(text);
+        return $this.loadDataFromJSON(text);
     }
 
 
