@@ -1,5 +1,5 @@
 /*!
-  * DrawgonJS v1.0.0-alpha.2 (https://github.com/wggb/drawgon-js)
+  * DrawgonJS v1.0.0-alpha.3 (https://github.com/wggb/drawgon-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
   * @license MIT (https://github.com/wggb/drawgon-js/blob/main/LICENSE)
   */
@@ -112,6 +112,7 @@ var Drawgon = function(id, config) {
         baseFontSize: 15,
         pathSmoothing: 10,
         cornerSmoothing: 4,
+        center: [ view.center.x, view.center.y ],
         zoom: 1,
         maxZoom: 16,
         minZoom: .4
@@ -128,6 +129,7 @@ var Drawgon = function(id, config) {
     this.baseFontSize = this.config.baseFontSize;
     this.pathSmoothing = this.config.pathSmoothing;
     this.cornerSmoothing = this.config.cornerSmoothing;
+    view.center = this.config.center;
     view.zoom = this.config.zoom;
     this.maxZoom = this.config.maxZoom;
     this.minZoom = this.config.minZoom;
@@ -182,6 +184,7 @@ var Drawgon = function(id, config) {
         $this.mode = $this.config.mode;
         $this.strokeWidth = $this.config.strokeWidth;
         $this.strokeColor = $this.config.strokeColor;
+        view.center = $this.config.center;
         view.zoom = $this.config.zoom;
     };
     this.clear = function() {
@@ -282,15 +285,17 @@ var Drawgon = function(id, config) {
         try {
             JSON.parse(text).forEach(function(item) {
                 let mode = item[0].trim().toLowerCase();
-                if (mode == "path") $this.items.push(new Path(item[1])); else if (mode == "pointtext") $this.items.push(new PointText(item[1]));
+                if (mode == "path") $this.items.push(new Path(item[1])); else if (mode == "pointtext") $this.items.push(new PointText(item[1])); else if (mode == "raster") $this.items.push(new Raster(item[1]));
             });
+            return true;
         } catch (error) {
             alert("Text can't be parsed.");
+            return false;
         }
     };
     this.setDataFromJSON = function(text) {
         $this.clear();
-        $this.loadDataFromJSON(text);
+        return $this.loadDataFromJSON(text);
     };
     this.tool.onMouseDown = function(event) {
         $this.mouse.click = event.point;

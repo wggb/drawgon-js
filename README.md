@@ -7,12 +7,12 @@ Customizable canvas drawing library.
 Add scripts right before closing `</body>` tag:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/paper@0.12.15/dist/paper-full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/drawgon@1.0.0-alpha.1/dist/drawgon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/drawgon@1.0.0-alpha.3/dist/drawgon.min.js"></script>
 ```
 
 You need to have a canvas with a specific id and these attributes in your page:
 ```html
-<canvas resize="true" id="drawgon" data-paper-scope="1"></canvas>
+<canvas id="drawgon" resize="true" data-paper-scope="1"></canvas>
 ```
 
 Initialize DrawgonJS:
@@ -31,6 +31,7 @@ var draw = new Drawgon("drawgon", {
     baseFontSize: 15,
     pathSmoothing: 10,
     cornerSmoothing: 4,
+    center: [0, 0],
     zoom: 1,
     maxZoom: 16,
     minZoom: 0.4,
