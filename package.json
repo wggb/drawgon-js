@@ -4,6 +4,7 @@
   "description": "Customizable canvas drawing library",
   "main": "dist/drawgon.js",
   "scripts": {
+    "test": "jest",
     "dist": "npm-run-all dist-full dist-full-min dist-core dist-core-min",
     "dist-full": "uglifyjs -b beautify --comments some src/drawgon.js src/tools/*.js -o dist/drawgon.js",
     "dist-full-min": "uglifyjs --comments some src/drawgon.js src/tools/*.js -o dist/drawgon.min.js",
@@ -36,6 +37,7 @@
     "paper": "^0.12.15"
   },
   "devDependencies": {
+    "jest": "^27.0.4",
     "npm-run-all": "^4.1.5",
     "uglify-js": "^3.13.6"
   },
