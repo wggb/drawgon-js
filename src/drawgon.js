@@ -12,27 +12,21 @@
             this.all.forEach(function (tool) {
                 names.push(tool.name);
             });
-            return names.slice();
+            return names.slice();  // Copy the value
         },
-        getAll: function (name) {
-            if (typeof name == 'undefined') {
-                return this.all.slice();  // Copy the value
-            } else {
-                let tools = [];
-                this.all.forEach(function (item) {
-                    if (item.name == name) tools.push(item);
-                });
-                return tools.slice();
-            }
+        getAll: function () {
+            return this.all;
         },
         get: function (name) {
-            let tools = this.getAll(name);
-            if (tools.length > 0) return tools[0];
-            else return null;
+            let tool = null;
+            this.all.forEach(function (item) {
+                if (item.name == name) tool = item;
+            });
+            return tool;
         },
         add: function (tool) {
             if (tool instanceof DrawgonTool) this.all.push(tool);
-            else console.error('Parameter must be instance of \'DrawgonTool\'.');
+            else throw new Error('Parameter must be instance of \'DrawgonTool\'.');
         },
         remove: function (name) {
             this.all.forEach(function (item, index) {
@@ -41,14 +35,10 @@
         }
     };
 
-    var DrawgonTool = function (name, error) {
-        let unique = true;
-        drawgonTools.getAll().forEach(function (item) {
-            if (item.name == name && unique) {
-                if (typeof error == 'undefined' || error)
-                    console.error('You have multiple tools with the same name!');
-                unique = false;
-            }
+    var DrawgonTool = function (name) {
+        drawgonTools.getAll().slice().forEach(function (item) {
+            if (item.name == name)
+                throw new Error('The name \'' + name + '\' already exists.');
         });
 
         this.name = name;
@@ -69,7 +59,7 @@
         this.onTouchEnd = function (event, drawgon) { return; };
         this.onTouchCancel = function (event, drawgon) { return; };
 
-        if (unique) drawgonTools.add(this);
+        drawgonTools.add(this);
     };
 
     DrawgonTool.getInstance = function (instanceName) {
@@ -353,21 +343,15 @@ var Drawgon = function (id, config) {
     };
 
     this.loadDataFromJSON = function (text) {
-        try {
-            JSON.parse(text).forEach(function (item) {
-                let mode = item[0].trim().toLowerCase();
-                if (mode == 'path')
-                    $this.items.push(new Path(item[1]));
-                else if (mode == 'pointtext')
-                    $this.items.push(new PointText(item[1]));
-                else if (mode == 'raster')
-                    $this.items.push(new Raster(item[1]));
-            });
-            return true;
-        } catch (error) {
-            alert('Text can\'t be parsed.');
-            return false;
-        }
+        JSON.parse(text).forEach(function (item) {
+            let mode = item[0].trim().toLowerCase();
+            if (mode == 'path')
+                $this.items.push(new Path(item[1]));
+            else if (mode == 'pointtext')
+                $this.items.push(new PointText(item[1]));
+            else if (mode == 'raster')
+                $this.items.push(new Raster(item[1]));
+        });
     };
 
     this.setDataFromJSON = function (text) {
