@@ -168,8 +168,10 @@ var Drawgon = function (id, config) {
         let newToolNames = initialTools.slice();
         newToolNames = newToolNames.concat(this.toolNames);
         newToolNames.forEach(function (name) {
-            if (!existingToolNames.includes(name))
+            if (!existingToolNames.includes(name)) {
                 allTools.push(DrawgonTool.get(name));
+                existingToolNames.push(name);
+            }
         });
 
         return allTools;
