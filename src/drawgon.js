@@ -158,7 +158,7 @@ var Drawgon = function (id, config) {
     this.tools = [];
 
     // TODO: Test this part of code.
-    let getTools = function () {
+    this.getTools = function () {
         let allTools = this.tools.slice();
         let existingToolNames = [];
         allTools.forEach(function (tool) {
@@ -166,7 +166,7 @@ var Drawgon = function (id, config) {
         });
 
         let newToolNames = initialTools.slice();
-        newToolNames.concat(toolNames);
+        newToolNames = newToolNames.concat(this.toolNames);
         newToolNames.forEach(function (name) {
             if (!existingToolNames.includes(name))
                 allTools.push(DrawgonTool.get(name));
@@ -399,68 +399,68 @@ var Drawgon = function (id, config) {
 
     this.tool.onMouseDown = function (event) {
         $this.mouse.click = event.point;
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseDown(event, $this);
         });
     };
 
     this.tool.onMouseDrag = function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseDrag(event, $this);
         });
     };
 
     this.tool.onMouseMove = function (event) {
         $this.mouse.point = event.point;
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseMove(event, $this);
         });
     };
 
     this.tool.onMouseUp = function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseUp(event, $this);
         });
     };
 
     this.tool.onKeyDown = function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onKeyDown(event, $this);
         });
     };
 
     this.tool.onKeyUp = function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onKeyUp(event, $this);
         });
     };
 
     document.querySelector(this.selector).addEventListener('wheel', function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onWheel(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchstart', function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchStart(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchmove', function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchMove(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchend', function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchEnd(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchcancel', function (event) {
-        getTools().forEach(function (tool) {
+        $this.getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchCancel(event, $this);
         });
     });
