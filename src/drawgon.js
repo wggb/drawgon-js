@@ -36,12 +36,15 @@
     };
 
     var DrawgonTool = function (name) {
-        drawgonTools.getAll().slice().forEach(function (item) {
-            if (item.name == name)
-                throw new Error('The name \'' + name + '\' already exists.');
-        });
+        this.name = undefined;
+        if (name) {
+            drawgonTools.getAll().slice().forEach(function (item) {
+                if (item.name == name)
+                    throw new Error('The name \'' + name + '\' already exists.');
+            });
 
-        this.name = name;
+            this.name = name;
+        }
 
         this.obj = {};
 
@@ -59,9 +62,10 @@
         this.onTouchEnd = function (event, drawgon) { return; };
         this.onTouchCancel = function (event, drawgon) { return; };
 
-        drawgonTools.add(this);
+        if (name) drawgonTools.add(this);
     };
 
+    // TODO: Add deprecated tag to old functions and variables.
     DrawgonTool.getInstance = function (instanceName) {
         return drawgonTools.get(instanceName);
     };
@@ -72,6 +76,14 @@
 
     DrawgonTool.getInstanceNames = function () {
         return drawgonTools.getAllNames();
+    };
+
+    DrawgonTool.get = function (name) {
+        return drawgonTools.get(name);
+    };
+
+    DrawgonTool.getAll = function () {
+        return drawgonTools.getAll();
     };
 }
 
@@ -85,6 +97,7 @@ var Drawgon = function (id, config) {
     this.config = {
         backgroundColor: '#ffffff',
         mode: 'draw',
+        tools: ['brush', 'eraser'],
         strokeColor: '#000000',
         strokeCap: 'round',
         strokeWidth: 6,
@@ -138,7 +151,29 @@ var Drawgon = function (id, config) {
     this.hold = false;
 
     this.items = [];
-    this.toolNames = ['brush', 'eraser'];
+
+    this.toolNames = [];
+
+    let initialTools = this.config.tools;
+    this.tools = [];
+
+    // TODO: Test this part of code.
+    let getTools = function () {
+        let allTools = this.tools.slice();
+        let existingToolNames = [];
+        allTools.forEach(function (tool) {
+            if (tool.name) existingToolNames.push(tool.name);
+        });
+
+        let newToolNames = initialTools.slice();
+        newToolNames.concat(toolNames);
+        newToolNames.forEach(function (name) {
+            if (!existingToolNames.includes(name))
+                allTools.push(DrawgonTool.get(name));
+        });
+
+        return allTools;
+    };
 
 
     // ----- MODE CONFIG -----
@@ -364,79 +399,68 @@ var Drawgon = function (id, config) {
 
     this.tool.onMouseDown = function (event) {
         $this.mouse.click = event.point;
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseDown(event, $this);
         });
     };
 
     this.tool.onMouseDrag = function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseDrag(event, $this);
         });
     };
 
     this.tool.onMouseMove = function (event) {
         $this.mouse.point = event.point;
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseMove(event, $this);
         });
     };
 
     this.tool.onMouseUp = function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onMouseUp(event, $this);
         });
     };
 
     this.tool.onKeyDown = function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onKeyDown(event, $this);
         });
     };
 
     this.tool.onKeyUp = function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onKeyUp(event, $this);
         });
     };
 
     document.querySelector(this.selector).addEventListener('wheel', function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onWheel(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchstart', function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchStart(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchmove', function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchMove(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchend', function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchEnd(event, $this);
         });
     });
 
     document.querySelector(this.selector).addEventListener('touchcancel', function (event) {
-        $this.toolNames.forEach(function (name) {
-            let tool = DrawgonTool.getInstance(name);
+        getTools().forEach(function (tool) {
             if (tool.active($this)) tool.onTouchCancel(event, $this);
         });
     });
