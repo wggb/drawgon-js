@@ -65,11 +65,19 @@
         if (name) drawgonTools.add(this);
     };
 
-    // TODO: Add deprecated tag to old functions and variables.
+    /**
+     * @preserve
+     * @deprecated Since version 1.0.0-alpha.4. Will be deleted in version 1.0.0. Use get instead.
+     */
     DrawgonTool.getInstance = function (instanceName) {
         return drawgonTools.get(instanceName);
     };
 
+
+    /**
+     * @preserve
+     * @deprecated Since version 1.0.0-alpha.4. Will be deleted in version 1.0.0. Use getAll instead.
+     */
     DrawgonTool.getInstances = function () {
         return drawgonTools.getAll();
     };
@@ -152,12 +160,15 @@ var Drawgon = function (id, config) {
 
     this.items = [];
 
+    /**
+     * @preserve
+     * @deprecated Since version 1.0.0-alpha.4. Will be deleted in version 1.0.0.
+     * Use "tools" in drawgon config object in constructor arguments instead.
+     */
     this.toolNames = [];
 
-    let initialTools = this.config.tools;
     this.tools = [];
 
-    // TODO: Test this part of code.
     this.getTools = function () {
         let allTools = this.tools.slice();
         let existingToolNames = [];
@@ -165,8 +176,8 @@ var Drawgon = function (id, config) {
             if (tool.name) existingToolNames.push(tool.name);
         });
 
-        let newToolNames = initialTools.slice();
-        newToolNames = newToolNames.concat(this.toolNames);
+        let newToolNames = this.config.tools.slice();
+        newToolNames = newToolNames.concat(this.toolNames);  // Delete this line in v1.0.0.
         newToolNames.forEach(function (name) {
             if (!existingToolNames.includes(name)) {
                 allTools.push(DrawgonTool.get(name));
