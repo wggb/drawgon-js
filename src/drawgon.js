@@ -170,14 +170,14 @@ var Drawgon = function (id, config) {
     this.tools = [];
 
     this.getTools = function () {
-        let allTools = this.tools.slice();
+        let allTools = $this.tools.slice();
         let existingToolNames = [];
         allTools.forEach(function (tool) {
             if (tool.name) existingToolNames.push(tool.name);
         });
 
-        let newToolNames = this.config.tools.slice();
-        newToolNames = newToolNames.concat(this.toolNames);  // Delete this line in v1.0.0.
+        let newToolNames = $this.config.tools.slice();
+        newToolNames = newToolNames.concat($this.toolNames);  // Delete this line in v1.0.0.
         newToolNames.forEach(function (name) {
             if (!existingToolNames.includes(name)) {
                 allTools.push(DrawgonTool.get(name));
