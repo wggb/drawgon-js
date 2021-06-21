@@ -1,10 +1,8 @@
-var drawgonBrush = new DrawgonTool('brush');
-
-drawgonBrush.active = function (drawgon) {
+new DrawgonTool('brush').active = function (drawgon) {
     return (!drawgon.hold && drawgon.mode == 'draw');
 };
 
-drawgonBrush.onMouseDown = function (event, drawgon) {
+DrawgonTool.get('brush').onMouseDown = function (event, drawgon) {
     drawgon.busy = true;
 
     let pathName = '#' + drawgon.current.id++;
@@ -18,12 +16,12 @@ drawgonBrush.onMouseDown = function (event, drawgon) {
     drawgon.current.path.add(event.point);
 };
 
-drawgonBrush.onMouseDrag = function (event, drawgon) {
+DrawgonTool.get('brush').onMouseDrag = function (event, drawgon) {
     if (drawgon.busy)
         drawgon.current.path.add(event.point);
 };
 
-drawgonBrush.onMouseUp = function (event, drawgon) {
+DrawgonTool.get('brush').onMouseUp = function (event, drawgon) {
     if (drawgon.busy && drawgon.current.path) {
         if (drawgon.current.path.segments.length > 5) {
             drawgon.current.path.simplify(drawgon.pathSmoothing);

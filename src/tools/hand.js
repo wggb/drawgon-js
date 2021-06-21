@@ -1,18 +1,16 @@
-var drawgonHand = new DrawgonTool('hand');
-
-drawgonHand.active = function (drawgon) {
+new DrawgonTool('hand').active = function (drawgon) {
     return (!drawgon.hold && drawgon.mode == 'move');
 };
 
-drawgonHand.onMouseDown = function (event, drawgon) {
+DrawgonTool.get('hand').onMouseDown = function (event, drawgon) {
     drawgon.busy = true;
 };
 
-drawgonHand.onMouseDrag = function (event, drawgon) {
+DrawgonTool.get('hand').onMouseDrag = function (event, drawgon) {
     if (drawgon.busy)
         view.center = view.center.add(drawgon.mouse.click.subtract(event.point));
 };
 
-drawgonHand.onMouseUp = function (event, drawgon) {
+DrawgonTool.get('hand').onMouseUp = function (event, drawgon) {
     drawgon.busy = false;
 };

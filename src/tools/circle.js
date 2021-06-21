@@ -1,10 +1,8 @@
-var drawgonCircle = new DrawgonTool('circle');
-
-drawgonCircle.active = function (drawgon) {
+new DrawgonTool('circle').active = function (drawgon) {
     return (!drawgon.hold && drawgon.mode == 'circle');
 };
 
-drawgonCircle.onMouseDrag = function (event, drawgon) {
+DrawgonTool.get('circle').onMouseDrag = function (event, drawgon) {
     let clickPoint = drawgon.mouse.click;
 
     drawgon.current.path = new Path.Circle({
@@ -23,7 +21,7 @@ drawgonCircle.onMouseDrag = function (event, drawgon) {
     drawgon.current.path.removeOnDrag();
 };
 
-drawgonCircle.onMouseUp = function (event, drawgon) {
+DrawgonTool.get('circle').onMouseUp = function (event, drawgon) {
     if (drawgon.current.path) {
         drawgon.current.path.name = '#' + drawgon.current.id++;
         drawgon.items.push(drawgon.current.path);

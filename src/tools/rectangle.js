@@ -1,10 +1,8 @@
-var drawgonRect = new DrawgonTool('rectangle');
-
-drawgonRect.active = function (drawgon) {
+new DrawgonTool('rectangle').active = function (drawgon) {
     return (!drawgon.hold && drawgon.mode == 'rect');
 };
 
-drawgonRect.onMouseDrag = function (event, drawgon) {
+DrawgonTool.get('rectangle').onMouseDrag = function (event, drawgon) {
     let clickPoint = drawgon.mouse.click;
     let rect = new Rectangle(clickPoint, event.point);
 
@@ -15,7 +13,7 @@ drawgonRect.onMouseDrag = function (event, drawgon) {
     drawgon.current.path.removeOnDrag();
 };
 
-drawgonRect.onMouseUp = function (event, drawgon) {
+DrawgonTool.get('rectangle').onMouseUp = function (event, drawgon) {
     if (drawgon.current.path) {
         drawgon.current.path.name = '#' + drawgon.current.id++;
         drawgon.items.push(drawgon.current.path);
