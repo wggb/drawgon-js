@@ -7,7 +7,7 @@ Customizable canvas drawing library.
 Add scripts right before closing `</body>` tag:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/paper@0.12.15/dist/paper-full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/drawgon@1.0.0-alpha.3/dist/drawgon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/drawgon@1.0.0-alpha.4/dist/drawgon.min.js"></script>
 ```
 
 You need to have a canvas with a specific id and these attributes in your page:
@@ -23,6 +23,7 @@ var draw = new Drawgon("drawgon");
 var draw = new Drawgon("drawgon", {
     backgroundColor: "#ffffff",
     mode: "draw",
+    tools: ['brush', 'eraser'],
     strokeColor: "#000000",
     strokeCap: "round",
     strokeWidth: 6,
@@ -40,10 +41,11 @@ var draw = new Drawgon("drawgon", {
 
 Choose tools:
 ```js
-draw.toolNames = ["brush", "eraser"];  // Default value of toolNames
+// Adding a tool
+draw.tools.push(DrawgonTool.get("hand"));;
 
 // Or choosing all available tools:
-draw.toolNames = DrawgonTool.getInstanceNames();
+draw.tools = DrawgonTool.getAll();
 ```
 
 Now the canvas is ready to use.

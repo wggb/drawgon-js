@@ -1,5 +1,5 @@
 /*!
-  * DrawgonJS v1.0.0-alpha.3 (https://github.com/wggb/drawgon-js)
+  * DrawgonJS v1.0.0-alpha.4 (https://github.com/wggb/drawgon-js)
   * Copyright (c) 2021 WhiteGooseGoesBlack
   * @license MIT (https://github.com/wggb/drawgon-js/blob/main/LICENSE)
   */
@@ -72,7 +72,6 @@
     DrawgonTool.getInstance = function (instanceName) {
         return drawgonTools.get(instanceName);
     };
-
 
     /**
      * @preserve
