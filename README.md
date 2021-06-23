@@ -42,7 +42,7 @@ var draw = new Drawgon("drawgon", {
 Choose tools:
 ```js
 // Adding a tool
-draw.tools.push(DrawgonTool.get("hand"));;
+draw.tools.push(DrawgonTool.get('hand'));
 
 // Or choosing all available tools:
 draw.tools = DrawgonTool.getAll();
