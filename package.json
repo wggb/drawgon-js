@@ -39,7 +39,7 @@
   "devDependencies": {
     "jest": "^27.0.4",
     "npm-run-all": "^4.1.5",
-    "rewire": "^5.0.0",
+    "rewire": "^6.0.0",
     "uglify-js": "^3.13.9"
   },
   "files": [
